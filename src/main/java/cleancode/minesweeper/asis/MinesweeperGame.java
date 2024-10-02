@@ -17,7 +17,7 @@ public class MinesweeperGame {
         Scanner scanner = new Scanner(System.in);
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 10; j++) {
-                board[i][j] = "□";
+                board[i][j] = "ㅁ";
             }
         }
         for (int i = 0; i < 10; i++) {
