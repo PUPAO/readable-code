@@ -1,7 +1,7 @@
 package cleancode.minesweeper.tobe.cell;
 
 public class NumberCell extends Cell {
-    private int nearbyLandMineCounts;
+    private final int nearbyLandMineCounts;
 
     public NumberCell(int nearbyLandMineCounts) {
         this.nearbyLandMineCounts = nearbyLandMineCounts;
