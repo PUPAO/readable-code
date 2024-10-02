@@ -60,7 +60,4 @@ public class ConsoleOutputHandler {
         System.out.println("프로그램에 문제가 생겼습니다.");
     }
 
-    public void printSimpleMessage(String message) {
-        System.out.println(message);
-    }
 }

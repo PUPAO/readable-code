@@ -3,7 +3,7 @@ package cleancode.minesweeper.tobe;
 import cleancode.minesweeper.tobe.in.ConsoleInputHandler;
 import cleancode.minesweeper.tobe.in.ConsoleOutputHandler;
 
-public class Minesweeper {
+public class Minesweeper implements GameRunnable, GameInitialize {
     private final GameBoard gameBoard;
     private final BoardIndexConverter boardIndexConverter = new BoardIndexConverter();
     ConsoleOutputHandler consoleOutputHandler = new ConsoleOutputHandler();
@@ -14,10 +14,15 @@ public class Minesweeper {
         gameBoard = new GameBoard(gameLevel);
     }
 
-    public void run() {
 
-        consoleOutputHandler.showGameStartComments();
+    @Override
+    public void initialize() {
         gameBoard.initializedGame();
+    }
+
+    @Override
+    public void run() {
+        consoleOutputHandler.showGameStartComments();
 
         while (true) {
             try {

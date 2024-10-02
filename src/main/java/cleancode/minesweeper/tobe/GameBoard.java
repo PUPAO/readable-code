@@ -1,5 +1,10 @@
 package cleancode.minesweeper.tobe;
 
+import cleancode.minesweeper.tobe.cell.Cell;
+import cleancode.minesweeper.tobe.cell.EmptyCell;
+import cleancode.minesweeper.tobe.cell.LandMineCell;
+import cleancode.minesweeper.tobe.cell.NumberCell;
+
 import java.util.Arrays;
 import java.util.Random;
 
@@ -16,19 +21,18 @@ public class GameBoard {
     }
 
     public void initializedGame() {
-        int rowSize = board.length;
-        int colSize = board[0].length;
+        int rowSize = getRowSize();
+        int colSize = getColSize();
         for (int row = 0; row < rowSize; row++) {
             for (int col = 0; col < board[1].length; col++) {
-                board[row][col] = Cell.create();
+                board[row][col] = new EmptyCell();
             }
         }
 
         for (int i = 0; i < LandMineCount; i++) {
             int landMineCol = new Random().nextInt(colSize);
             int landMineRow = new Random().nextInt(rowSize);
-            Cell landMineCell = findCell(landMineRow, landMineCol);
-            landMineCell.turnOnLandMind();
+            board[landMineRow][landMineCol] = new LandMineCell();
         }
 
         for (int row = 0; row < rowSize; row++) {
@@ -38,8 +42,8 @@ public class GameBoard {
                     continue;
                 }
                 int count = countNearbyLandMines(row, col);
-                Cell cell = findCell(row, col);
-                cell.updateNearbyLandMineCount(count);
+                if(count == 0) continue;
+                board[row][col] = new NumberCell(count);
             }
         }
     }
@@ -63,6 +67,10 @@ public class GameBoard {
     public void open(int rowIndex, int colIndex) {
         Cell cell = findCell(rowIndex, colIndex);
         cell.open();
+    }
+
+    public void flag(int rowIndex, int colIndex) {
+        findCell(rowIndex, colIndex);
     }
 
     public boolean isLandMineCell(int selectedRow, int selectedCol) {
@@ -100,10 +108,6 @@ public class GameBoard {
             count++;
         }
         return count;
-    }
-
-    public void flag(int rowIndex, int colIndex) {
-        findCell(rowIndex, colIndex);
     }
 
     public void openSurroundedCells(int row, int col) {
