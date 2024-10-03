@@ -1,21 +1,19 @@
 package cleancode.minesweeper.tobe;
 
-import cleancode.minesweeper.tobe.cell.Cell;
-import cleancode.minesweeper.tobe.cell.EmptyCell;
-import cleancode.minesweeper.tobe.cell.LandMineCell;
-import cleancode.minesweeper.tobe.cell.NumberCell;
+import cleancode.minesweeper.tobe.cell.*;
+import cleancode.minesweeper.tobe.level.GameLevel;
 
 import java.util.Arrays;
 import java.util.Random;
 
 public class GameBoard {
-    private static Cell[][] board;
+    private static Cell2[][] board;
     private final int LandMineCount;
 
     public GameBoard(GameLevel gameLevel) {
         int rowSize = gameLevel.getRowSize();
         int colSize = gameLevel.getColSize();
-        board = new Cell[rowSize][colSize];
+        board = new Cell2[rowSize][colSize];
 
         LandMineCount = gameLevel.getLandMindCount();
     }
@@ -60,12 +58,12 @@ public class GameBoard {
         return findCell(rowIndex, colIndex).getSign();
     }
 
-    public Cell findCell(int row, int col) {
+    public Cell2 findCell(int row, int col) {
         return board[row][col];
     }
 
     public void open(int rowIndex, int colIndex) {
-        Cell cell = findCell(rowIndex, colIndex);
+        Cell2 cell = findCell(rowIndex, colIndex);
         cell.open();
     }
 
@@ -74,7 +72,7 @@ public class GameBoard {
     }
 
     public boolean isLandMineCell(int selectedRow, int selectedCol) {
-        Cell cell = findCell(selectedRow, selectedCol);
+        Cell2 cell = findCell(selectedRow, selectedCol);
         return cell.isLandMine();
     }
 
@@ -148,6 +146,6 @@ public class GameBoard {
     public boolean isAllCellChecked() {
         return Arrays.stream(board)
                 .flatMap(Arrays::stream)
-                .allMatch(Cell::isChecked);
+                .allMatch(Cell2::isChecked);
     }
 }

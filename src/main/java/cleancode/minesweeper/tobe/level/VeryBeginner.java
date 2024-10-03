@@ -1,18 +1,18 @@
-package cleancode.minesweeper.tobe;
+package cleancode.minesweeper.tobe.level;
 
-public class Advanced implements GameLevel{
+public class VeryBeginner implements GameLevel {
     @Override
     public int getRowSize() {
-        return 20;
+        return 4;
     }
 
     @Override
     public int getColSize() {
-        return 24;
+        return 5;
     }
 
     @Override
     public int getLandMindCount() {
-        return 99;
+        return 2;
     }
 }
