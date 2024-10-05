@@ -1,5 +1,7 @@
 package cleancode.minesweeper.tobe;
 
+import cleancode.minesweeper.tobe.game.GameRunnable;
+
 public class OtherGame implements GameRunnable {
 
     @Override
