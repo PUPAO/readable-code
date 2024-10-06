@@ -138,7 +138,6 @@ public class GameBoard {
                 || cellPosition.isColIndexMoreThanOrEqual(colSize);
     }
 
-
     private boolean doesCellHaveLandMineCount(CellPosition cellPosition) {
         Cell cell = findCell(cellPosition);
         return cell.hasLandMineCount();
@@ -148,8 +147,6 @@ public class GameBoard {
         Cell cell = findCell(cellPosition);
         return cell.isOpened();
     }
-
-
 
     public boolean isAllCellChecked() {
         Cells cells = Cells.from(board);
