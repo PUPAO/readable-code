@@ -1,14 +1,13 @@
-package cleancode.minesweeper.tobe.in;
+package cleancode.minesweeper.tobe.io;
 
 import cleancode.minesweeper.tobe.GameBoard;
 import cleancode.minesweeper.tobe.GameException;
 
 public interface OutputHandler {
+
     void showGameStartComments();
 
     void showBoard(GameBoard board);
-
-    String generatedColAlphabets(GameBoard board);
 
     void showGameWinningComment();
 
@@ -20,5 +19,6 @@ public interface OutputHandler {
 
     void showExceptionMessage(GameException e);
 
-    void printWarningMessage();
+    void showSimpleMessage(String message);
+
 }

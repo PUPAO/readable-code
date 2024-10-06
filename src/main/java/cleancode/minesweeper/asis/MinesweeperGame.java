@@ -20,11 +20,13 @@ public class MinesweeperGame {
                 board[i][j] = "ㅁ";
             }
         }
+
         for (int i = 0; i < 10; i++) {
             int col = new Random().nextInt(10);
             int row = new Random().nextInt(8);
             landMines[row][col] = true;
         }
+
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 10; j++) {
                 int count = 0;
