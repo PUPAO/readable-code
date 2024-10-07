@@ -8,7 +8,7 @@ public class MinesweeperGame {
     private static final String[][] board = new String[8][10];
     private static final Integer[][] landMineCounts = new Integer[8][10];
     private static final boolean[][] landMines = new boolean[8][10];
-    private static int gameStatus = 0; // 0: 게임 중, 1: 승리, -1: 패배
+    private static int gameStatus = 0;
 
     public static void main(String[] args) {
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
