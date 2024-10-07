@@ -73,11 +73,11 @@ public class GameBoard {
     }
 
     public boolean isWinStatus() {
-        return gameStatus == GameStatus.LOSE;
+        return gameStatus == GameStatus.WIN;
     }
 
     public boolean isLoseStatus() {
-        return gameStatus == GameStatus.WIN;
+        return gameStatus == GameStatus.LOSE;
     }
 
     // 조회
