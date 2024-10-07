@@ -6,6 +6,8 @@ import cleancode.minesweeper.tobe.minesweeper.board.position.CellPositions;
 import cleancode.minesweeper.tobe.minesweeper.board.position.RelativePosition;
 import cleancode.minesweeper.tobe.minesweeper.level.GameLevel;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.List;
 
 public class GameBoard {
@@ -24,6 +26,25 @@ public class GameBoard {
     }
 
     // 상태 변경
+
+    private static void initializeEmptyCells(CellPositions cellPositions) {
+        List<CellPosition> allPositions = cellPositions.getPositions();
+        for (CellPosition landMinePosition : allPositions) {
+            updateCellAt(landMinePosition, new EmptyCell());
+        }
+    }
+
+    private static void initializeLandMineCells(List<CellPosition> landMinePositions) {
+        for (CellPosition landMinePosition : landMinePositions) {
+            updateCellAt(landMinePosition, new LandMineCell());
+        }
+    }
+
+    private static void updateCellAt(CellPosition position, Cell cell) {
+        board[position.getRowIndex()][position.getColIndex()] = cell;
+    }
+
+    // 판별
 
     public void initializedGame() {
         initializeGameStatus();
@@ -48,7 +69,7 @@ public class GameBoard {
             return;
         }
 
-        openSurroundedCells(cellPosition);
+        openSurroundedCellsVStack(cellPosition);
         checkIfGameIsOver();
     }
 
@@ -58,8 +79,6 @@ public class GameBoard {
         checkIfGameIsOver();
     }
 
-    // 판별
-
     public boolean isInvalidCellPosition(CellPosition cellPosition) {
         int rowSize = getRowSize();
         int colSize = getColSize();
@@ -67,6 +86,8 @@ public class GameBoard {
         return cellPosition.isRowIndexMoreThanOrEqual(rowSize)
                 || cellPosition.isColIndexMoreThanOrEqual(colSize);
     }
+
+    // 조회
 
     public boolean isInProgress() {
         return gameStatus == GameStatus.IN_PROGRESS;
@@ -80,7 +101,7 @@ public class GameBoard {
         return gameStatus == GameStatus.LOSE;
     }
 
-    // 조회
+    // 그 외
 
     public CellSnapshot getSnapshot(CellPosition cellPosition) {
         Cell cell = findCell(cellPosition);
@@ -95,23 +116,8 @@ public class GameBoard {
         return board[0].length;
     }
 
-    // 그 외
-
     private void initializeGameStatus() {
         gameStatus = GameStatus.IN_PROGRESS;
-    }
-
-    private static void initializeEmptyCells(CellPositions cellPositions) {
-        List<CellPosition> allPositions = cellPositions.getPositions();
-        for (CellPosition landMinePosition : allPositions) {
-            updateCellAt(landMinePosition, new EmptyCell());
-        }
-    }
-
-    private static void initializeLandMineCells(List<CellPosition> landMinePositions) {
-        for (CellPosition landMinePosition : landMinePositions) {
-            updateCellAt(landMinePosition, new LandMineCell());
-        }
     }
 
     private void initializeNumberCells(List<CellPosition> numberPositionCandidates) {
@@ -144,11 +150,7 @@ public class GameBoard {
                 .toList();
     }
 
-    private static void updateCellAt(CellPosition position, Cell cell) {
-        board[position.getRowIndex()][position.getColIndex()] = cell;
-    }
-
-    private void openSurroundedCells(CellPosition cellPosition) {
+    private void openSurroundedCellsVRecursion(CellPosition cellPosition) {
 
         if (isOpenedCell(cellPosition)) {
             return;
@@ -164,8 +166,39 @@ public class GameBoard {
         }
 
         List<CellPosition> cellPositions = calculateSurroundedPositions(cellPosition, getRowSize(), getRowSize());
-        cellPositions.forEach(this::openSurroundedCells);
+        cellPositions.forEach(this::openSurroundedCellsVStack);
+    }
 
+    private void openSurroundedCellsVStack(CellPosition cellPosition) {
+
+        Deque<CellPosition> deque = new ArrayDeque<>();
+        deque.push(cellPosition);
+
+        while (!deque.isEmpty()) {
+            openAndPushCellAt(deque);
+        }
+
+    }
+
+    private void openAndPushCellAt(Deque<CellPosition> deque) {
+        CellPosition currentCellPosition = deque.pop();
+        if (isOpenedCell(currentCellPosition)) {
+            return;
+        }
+        if (isLandMineCellAt(currentCellPosition)) {
+            return;
+        }
+
+        openOneCellAt(currentCellPosition);
+
+        if (doesCellHaveLandMineCount(currentCellPosition)) {
+            return;
+        }
+
+        List<CellPosition> cellPositions = calculateSurroundedPositions(currentCellPosition, getRowSize(), getRowSize());
+        for (CellPosition surroundedPosition : cellPositions) {
+            deque.push(surroundedPosition);
+        }
     }
 
     private void openOneCellAt(CellPosition cellPosition) {

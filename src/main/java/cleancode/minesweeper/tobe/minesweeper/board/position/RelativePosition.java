@@ -5,9 +5,6 @@ import java.util.Objects;
 
 public class RelativePosition {
 
-    private final int deltaRow;
-    private final int deltaCol;
-
     public static final List<RelativePosition> SURROUNDED_POSITIONS = List.of(
             RelativePosition.of(-1, -1),
             RelativePosition.of(-1, 0),
@@ -18,6 +15,8 @@ public class RelativePosition {
             RelativePosition.of(1, 0),
             RelativePosition.of(1, 1)
     );
+    private final int deltaRow;
+    private final int deltaCol;
 
     public RelativePosition(int deltaRow, int deltaCol) {
         this.deltaRow = deltaRow;

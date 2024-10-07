@@ -1,8 +1,10 @@
 package cleancode.minesweeper.tobe.minesweeper.io.sign;
+
 import cleancode.minesweeper.tobe.minesweeper.board.cell.CellSnapshot;
 import cleancode.minesweeper.tobe.minesweeper.board.cell.CellSnapshotStatus;
 
 import java.util.Arrays;
+
 public enum CellSignProvider implements CellSignProvidable {
 
     EMPTY(CellSnapshotStatus.EMPTY) {
@@ -46,18 +48,21 @@ public enum CellSignProvider implements CellSignProvidable {
     CellSignProvider(CellSnapshotStatus status) {
         this.status = status;
     }
-    @Override
-    public boolean supports(CellSnapshot cellSnapshot) {
-        return cellSnapshot.isSameStatus(status);
-    }
+
     public static String findCellSignFrom(CellSnapshot snapshot) {
         CellSignProvider cellSignProvider = findBy(snapshot);
         return cellSignProvider.provide(snapshot);
     }
+
     private static CellSignProvider findBy(CellSnapshot snapshot) {
         return Arrays.stream(values())
                 .filter(provider -> provider.supports(snapshot))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("확인할 수 없는 셀입니다."));
+    }
+
+    @Override
+    public boolean supports(CellSnapshot cellSnapshot) {
+        return cellSnapshot.isSameStatus(status);
     }
 }

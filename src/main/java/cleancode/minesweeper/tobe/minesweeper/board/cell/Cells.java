@@ -15,6 +15,7 @@ public class Cells {
     public static Cells of(List<Cell> cells) {
         return new Cells(cells);
     }
+
     public static Cells from(Cell[][] cells) {
         List<Cell> cellsList = Arrays.stream(cells)
                 .flatMap(Arrays::stream)
