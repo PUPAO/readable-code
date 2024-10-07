@@ -9,8 +9,10 @@ import cleancode.minesweeper.tobe.position.RelativePosition;
 import java.util.List;
 
 public class GameBoard {
+
     private static Cell[][] board;
     private final int LandMineCount;
+    private GameStatus gameStatus;
 
     public GameBoard(GameLevel gameLevel) {
         int rowSize = gameLevel.getRowSize();
@@ -18,6 +20,7 @@ public class GameBoard {
         board = new Cell[rowSize][colSize];
 
         LandMineCount = gameLevel.getLandMindCount();
+        gameStatus = GameStatus.IN_PROGRESS;
     }
 
     public CellSnapshot getSnapshot(CellPosition cellPosition) {
@@ -26,6 +29,7 @@ public class GameBoard {
     }
 
     public void initializedGame() {
+        gameStatus = GameStatus.IN_PROGRESS;
 
         CellPositions cellPositions = CellPositions.from(board);
 
@@ -78,7 +82,7 @@ public class GameBoard {
         return board[cellPosition.getRowIndex()][cellPosition.getColIndex()];
     }
 
-    public void openAt(CellPosition cellPosition) {
+    public void openOneCellAt(CellPosition cellPosition) {
         Cell cell = findCell(cellPosition);
         cell.open();
     }
@@ -119,7 +123,7 @@ public class GameBoard {
             return;
         }
 
-        openAt(cellPosition);
+        openOneCellAt(cellPosition);
 
         if (doesCellHaveLandMineCount(cellPosition)) {
             return;
@@ -148,13 +152,52 @@ public class GameBoard {
         return cell.isOpened();
     }
 
+    public void flagAt(CellPosition cellPosition) {
+        Cell cell = findCell(cellPosition);
+        cell.flag();
+        checkIfGameIsOver();
+    }
+
+    private void checkIfGameIsOver() {
+        if (isAllCellChecked()) {
+            changeGameStatusToWin();
+        }
+    }
+
     public boolean isAllCellChecked() {
         Cells cells = Cells.from(board);
         return cells.isAllChecked();
     }
 
-    public void flagAt(CellPosition cellPosition) {
-        Cell cell = findCell(cellPosition);
-        cell.flag();
+    private void changeGameStatusToWin() {
+        gameStatus = GameStatus.WIN;
     }
+
+    public boolean isInProgress() {
+        return gameStatus == GameStatus.IN_PROGRESS;
+    }
+
+    public void openAt(CellPosition cellPosition) {
+        if (isLandMineCellAt(cellPosition)) {
+            openOneCellAt(cellPosition);
+            changeGameStatusToLose();
+            return;
+        }
+
+        openSurroundedCells(cellPosition);
+        checkIfGameIsOver();
+    }
+
+    private void changeGameStatusToLose() {
+        gameStatus = GameStatus.LOSE;
+    }
+
+    public boolean isWinStatus() {
+        return gameStatus == GameStatus.LOSE;
+    }
+
+    public boolean isLoseStatus() {
+        return gameStatus == GameStatus.WIN;
+    }
+
 }
