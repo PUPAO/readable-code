@@ -1,5 +1,10 @@
 package cleancode.studycafe.tobe.model;
 
+
+/**
+ * StudyCafeLockerPass는 지금 클래스와 겹치는 부분이 많아서 삭제했습니다.
+ *
+ */
 public class StudyCafePass {
 
     private final StudyCafePassType passType;
