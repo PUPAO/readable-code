@@ -21,9 +21,7 @@ public class StudyCafePassMachine {
 
         try {
             StudyCafePassType studyCafePassType = inputHandler.getPassTypeSelectingUserAction();
-
             processPassBy(studyCafePassType, new StudyCafeFileHandler());
-
         } catch (AppException e) {
             outputHandler.showSimpleMessage(e.getMessage());
         } catch (Exception e) {
