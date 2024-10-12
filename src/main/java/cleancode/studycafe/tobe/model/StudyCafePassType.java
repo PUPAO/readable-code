@@ -1,5 +1,7 @@
 package cleancode.studycafe.tobe.model;
 
+import java.util.function.Predicate;
+
 public enum StudyCafePassType {
 
     HOURLY("시간 단위 이용권"),
@@ -11,5 +13,4 @@ public enum StudyCafePassType {
     StudyCafePassType(String description) {
         this.description = description;
     }
-
 }
