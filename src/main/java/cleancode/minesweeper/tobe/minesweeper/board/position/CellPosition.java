@@ -32,7 +32,6 @@ public class CellPosition {
         return Objects.hash(rowIndex, colIndex);
     }
 
-
     public boolean isRowIndexMoreThanOrEqual(int rowIndex) {
         return this.rowIndex >= rowIndex;
     }
@@ -57,7 +56,6 @@ public class CellPosition {
             );
         }
         throw new IllegalArgumentException("움직일 수 있는 좌표가 아닙니다.");
-
     }
 
     public boolean canCalculatePositionBy(RelativePosition relativePosition) {
