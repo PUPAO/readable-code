@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CellSignProviderTest {
 
     @Test
-    void testEmptySign() {
+    void EmptySign() {
         System.out.println("CellSignProviderTest.testEmptySign");
         CellSnapshot snapshot = CellSnapshot.of(CellSnapshotStatus.EMPTY, 0);
         assertEquals("■", CellSignProvider.findCellSignFrom(snapshot));
